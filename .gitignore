@@ -5,4 +5,4 @@ node_modules
 *.db
 *.sqlite
 dist/
-prisma/migrations/dev/
+part2-secure-backend/prisma/migrations/dev/
