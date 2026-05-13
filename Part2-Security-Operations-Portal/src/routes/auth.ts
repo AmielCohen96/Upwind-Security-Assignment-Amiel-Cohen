@@ -50,7 +50,10 @@ router.post('/login', loginLimiter, async (req: Request, res: Response) => {
 
     // Anti-enumeration: respond identically whether the email doesn't exist or the
     // password is wrong so an attacker cannot determine which field failed.
+    // The dummy bcrypt.compare call ensures both branches take ~100ms, preventing
+    // user enumeration via response-time differences (timing attack).
     if (!user) {
+      await bcrypt.compare(password, '$2b$10$dummyHashToPreventTimingAttacks1234567890123456789012');
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 

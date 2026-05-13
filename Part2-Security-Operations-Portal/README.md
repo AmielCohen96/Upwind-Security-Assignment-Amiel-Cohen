@@ -99,6 +99,8 @@ This is a deliberate security decision:
 
 Both an unknown email address and a correct email with a wrong password return the same **generic `401 Unauthorized`** response with no distinguishing message. This prevents an attacker from using the login endpoint to enumerate valid accounts.
 
+Response **timing** is also normalised: when an email address is not found, the server performs a dummy `bcrypt.compare` call before returning. Without this, the not-found branch would return in microseconds while the wrong-password branch takes ~100ms (bcrypt work factor). A high-precision timer could distinguish these branches and reveal which emails exist — a timing oracle. The dummy call eliminates that gap.
+
 ### Brute-Force Protection
 
 The `/api/auth/login` endpoint is protected by **`express-rate-limit`**: a maximum of **5 login attempts per IP within a 15-minute window** triggers a `429 Too Many Requests` response. This makes online password-guessing attacks impractical.

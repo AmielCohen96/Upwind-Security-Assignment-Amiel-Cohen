@@ -458,7 +458,7 @@ checkSafeBrowsing(urls)
 
 **`muteHttpExceptions: true`**: without this flag a non-200 response throws an unhandled exception that crashes `buildAddOn`. With it, the error is returned as a response object and checked via `getResponseCode()`.
 
-**API key security**: `SAFE_BROWSING_API_KEY` is read from Script Properties (script-scoped) and never written to source code, logs, or return values.
+**API key security**: `SAFE_BROWSING_API_KEY` is read from Script Properties (script-scoped) and never written to source code, logs, or return values. The URLs submitted to the API are also never logged — doing so would write potentially sensitive link contents to Stackdriver, which is accessible to workspace administrators.
 
 **6-hour TTL**: phishing campaign URLs don't become benign within 6 hours. The TTL also matches typical Safe Browsing `cacheDuration` return values.
 
@@ -606,9 +606,6 @@ buildAddOn(e)
   ├── calculateScore(emailData) → { finalScore, signals, verdict }
   ├── saveScanHistory(emailData, result)
   │       Persisted AFTER scoring
-  │
-  ├── console.log({ subject, sender, urlCount, headers, scoreResult })
-  │       Never logs rawContent or body
   │
   └── CardService card (4 sections):
         1. Email Info:      From / Subject / Date (Asia/Jerusalem timezone)

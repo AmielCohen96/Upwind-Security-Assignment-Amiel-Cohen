@@ -12,7 +12,7 @@ const router = Router();
 const createUserSchema = z.object({
   email: z.string().email('Valid email required'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
-  role: z.string().min(1, 'Role is required'),
+  role: z.enum(['admin', 'analyst', 'viewer']),
 }).strict();
 
 // GET /api/users: Fetch all users with admin-only access.

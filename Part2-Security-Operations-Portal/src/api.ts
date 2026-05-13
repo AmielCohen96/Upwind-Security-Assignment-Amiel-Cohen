@@ -1,6 +1,6 @@
 // Backend URL: The Express server runs on port 4000.
 // This is separate from the frontend (port 5173) so CORS is needed.
-const API_URL = "http://localhost:4000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 // Helper to make authenticated API calls with credentials.
 // CRITICAL: credentials: 'include' tells the browser to send HttpOnly cookies

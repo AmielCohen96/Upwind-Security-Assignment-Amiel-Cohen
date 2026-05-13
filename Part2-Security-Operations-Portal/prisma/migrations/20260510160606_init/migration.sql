@@ -1,10 +1,11 @@
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "username" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "passwordHash" TEXT NOT NULL,
-    "role" TEXT NOT NULL DEFAULT 'analyst'
+    "role" TEXT NOT NULL DEFAULT 'analyst',
+    "status" TEXT NOT NULL DEFAULT 'active'
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
